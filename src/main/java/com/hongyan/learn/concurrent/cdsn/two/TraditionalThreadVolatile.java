@@ -34,7 +34,8 @@ public class TraditionalThreadVolatile {
     }
 
     static class Test {
-        static volatile int i = 0,j=0;
+        static volatile int i = 0;// volatile保证了变量的可见性,保证不了有序性
+        static volatile int j = 0;
 
         // 锁在静态方法上,相当于锁住了这个类
         static /* synchronized */ void one() {
