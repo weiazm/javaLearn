@@ -4,40 +4,48 @@
  */
 package com.hongyan.learn.concurrent;
 
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
- * @title GongDan
+ * @title GongDanWithLock
  * @desc description
  * @author hongyan
  * @date 2016年8月1日
  * @version version
  */
-public class GongDan {
-    protected Integer work;
-    protected Integer end;
+public class GongDanWithLock extends GongDan {
+    private Lock lock = new ReentrantLock();
+    private Condition cond = lock.newCondition();
 
-    public GongDan(Integer work, Integer end) {
-        this.work = work;
-        this.end = end;
+    public GongDanWithLock(Integer work, Integer end) {
+        super(work, end);
     }
-    
-    public synchronized void process(Integer mod) {
+
+    @Override
+    public void process(Integer mod) {// here problem
+
         while (work < end) {
-        this.proces(mod);
+            lock.lock();
+            this.proces(mod);
+            lock.unlock();
         }
     }
 
     private void proces(Integer mod) {
         if (work % 3 != mod) {
             try {
-                this.wait();
+                cond.await();
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         } else {
             System.out.println(Thread.currentThread().getName() + ": " + work % 3 + "->" + work);
-        work++;
-            this.notifyAll();
+            work++;
+            cond.signalAll();
+            ;
         }
     }
 }

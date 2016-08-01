@@ -19,7 +19,10 @@ public class GongDanProcessor {
     public static void main(String[] args) {
         final int workStart = 1;
         int workEnd = 1001;
-        final GongDan gd = new GongDan(workStart, workEnd);
+        final GongDan gd = // new GongDan(workStart, workEnd);
+
+            new GongDanWithLock(workStart, workEnd);
+
         new Thread(new Runnable() {
             @Override
             public void run() {

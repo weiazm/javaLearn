@@ -29,6 +29,21 @@ public class MainSub100 {
         for (int i = 0; i < 10; i++) {
             ms.main(i);
         }
+
+        System.out.println("====================");
+
+        final Main100Sub10Lock msl = new Main100Sub10Lock();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 10; i++) {
+                    msl.sub(i);
+                }
+            }
+        }).start();
+        for (int i = 0; i < 10; i++) {
+            msl.main(i);
+        }
     }
 
 }
