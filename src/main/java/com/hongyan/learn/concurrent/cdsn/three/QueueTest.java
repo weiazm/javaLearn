@@ -18,9 +18,14 @@ public class QueueTest {
      * @throws InterruptedException
      */
     public static void main(String[] args) throws InterruptedException {
-        final MyBlockingQueue<Integer> queue = new MyBlockingQueue<Integer>(9);
+        // final MyBlockingQueue<Integer> queue = new MyBlockingQueue<Integer>(9);
+        final MyBlockingQueue<Integer> queue = new MyBlockingQueueWithLock<Integer>(3);
 
         class Producer implements Runnable {
+            private Integer num;
+            public Producer(Integer num) {
+                this.num = num;
+            }
             @Override
             public void run() {
                 try {
@@ -29,11 +34,16 @@ public class QueueTest {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
+                for (int i = 0; i < num; i++)
                     queue.put(1);
             }
         }
 
         class Consumer implements Runnable {
+            private Integer num;
+            public Consumer(Integer num) {
+                this.num = num;
+            }
             @Override
             public void run() {
                 try {
@@ -42,15 +52,15 @@ public class QueueTest {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
+                for (int i = 0; i < num; i++)
                     queue.get();
             }
         }
 
-        for (int i = 0; i < 1000; i++) {
-            new Thread(new Consumer()).start();
-            new Thread(new Producer()).start();
-        }
-        Thread.sleep(100);
+        new Thread(new Consumer(200)).start();
+        new Thread(new Producer(100)).start();
+        new Thread(new Producer(100)).start();
+        Thread.sleep(1000);
         System.out.println(queue.box.size());
     }
 

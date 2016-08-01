@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class MyBlockingQueue<T> {
     List<T> box;
-    private Integer limit;
+    protected Integer limit;
 
     public MyBlockingQueue(int limit) {
         this.limit = limit;
