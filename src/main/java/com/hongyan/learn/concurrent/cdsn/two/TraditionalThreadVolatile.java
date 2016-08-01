@@ -17,17 +17,16 @@ public class TraditionalThreadVolatile {
      * @param args
      */
     public static void main(String[] args) {
-        final Test test = new Test();
         new Thread() {
             @Override
             public void run() {
-                test.one();
+                Test.one();
             }
         }.start();
         new Thread(){
             @Override
             public void run(){
-                test.two();
+                Test.two();
             }
         }.start();
 
