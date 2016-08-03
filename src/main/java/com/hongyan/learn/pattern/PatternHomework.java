@@ -163,6 +163,7 @@ public class PatternHomework {
             bos.write(line);
             bos.newLine();
         }
+        bos.close();
         System.out.println("写入文件done!");
         
     }
