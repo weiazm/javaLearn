@@ -6,19 +6,17 @@ package com.hongyan.learn.pattern;
 
 import com.google.common.collect.Lists;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -38,7 +36,7 @@ public class PatternHomework {
 
     private static List<File> getAllFiles(String folderPath) throws FileNotFoundException {
         File folder = new File(folderPath);
-        if(!folder.exists()||!folder.isDirectory()){
+        if (!folder.exists() || !folder.isDirectory()) {
             throw new FileNotFoundException("fodlerPath is not a right path or folder!");
         }
         List<File> files = Lists.newLinkedList();
@@ -108,64 +106,75 @@ public class PatternHomework {
         }
         return result;
     }
-    
+
     @Data
-    private static class POInfo{
+    private static class POInfo {
         private String javaName;
         private String catalog;
         private String name;
     }
-    
-    private static POInfo convertStrTOPOInfo(String str,Pattern javaPattern,Pattern catalogPattern,Pattern namePattern){
+
+    private static POInfo convertStrTOPOInfo(String str, Pattern javaPattern, Pattern catalogPattern,
+        Pattern namePattern) {
         POInfo po = new POInfo();
         Matcher mat1 = javaPattern.matcher(str);
-        Matcher mat2= catalogPattern.matcher(str);
+        Matcher mat2 = catalogPattern.matcher(str);
         Matcher mat3 = namePattern.matcher(str);
         mat1.find();
         mat2.find();
         mat3.find();
-        String[] mat2Strs = mat2.group().split("\"");
-        String[] mat3Strs = mat3.group().split("\"");
-        po.setJavaName(mat1.group());
-        po.setName(mat2Strs[mat2Strs.length-1].trim());
-        po.setCatalog(mat3Strs[mat3Strs.length-1].trim());
+        po.setJavaName(mat1.group(1));
+        po.setName(mat2.group(1));
+        po.setCatalog(mat3.group(1));
         return po;
     }
 
     public static void main(String[] args) throws IOException {
-        Pattern tablePattern = Pattern.compile("@[ ]*Table[ ]*\\(*.*\\)*");//@Table识别正则
-        Pattern entityPattern = Pattern.compile("@[ ]*Entity[ ]*\\(*.*\\)*");//@Entity识别正则
-        List<File> files = getAllFiles("/Users/hongyan/Documents/workspace/tianxiao-service");//扫描路径
+        Pattern tablePattern = Pattern.compile("@[ ]*Table[ ]*\\(*.*\\)*");// @Table识别正则
+        Pattern entityPattern = Pattern.compile("@[ ]*Entity[ ]*\\(*.*\\)*");// @Entity识别正则
+        List<File> files = getAllFiles("/Users/hongyan/Documents/workspace/tianxiao-service");// 扫描路径
 
         System.out.println("待扫描的文件数量:" + files.size());
-        List<String> list = getPOString(files, tablePattern, entityPattern);//正则抓取指定文件内容
+        List<String> list = getPOString(files, tablePattern, entityPattern);// 正则抓取指定文件内容
         System.out.println("属于PO的文件数量:" + list.size());
-        
-        Pattern javaPattern = Pattern.compile("^[\\w]*\\.java");//类名识别正则
-        Pattern catalogPattern = Pattern.compile("name[ ]*=[ ]*\"[ ]*(\\w+)[ ]*\"");//数据库名识别正则
-        Pattern namePattern = Pattern.compile("catalog[ ]*=[ ]*\"[ ]*(\\w+)[ ]*\"");//表名识别正则
-        
+
+        Pattern javaPattern = Pattern.compile("^(\\w+)*\\.java");// 类名识别正则
+        Pattern catalogPattern = Pattern.compile("name[ ]*=[ ]*\"[ ]*(\\w+)[ ]*\"");// 数据库名识别正则
+        Pattern namePattern = Pattern.compile("catalog[ ]*=[ ]*\"[ ]*(\\w+)[ ]*\"");// 表名识别正则
+
         List<POInfo> pos = Lists.newArrayList();
         for (String str : list) {
-            pos.add(convertStrTOPOInfo( str, javaPattern, catalogPattern, namePattern));//字符串转化实体类
+            pos.add(convertStrTOPOInfo(str, javaPattern, catalogPattern, namePattern));// 字符串转化实体类
         }
         
-        writeIntoFile(pos,"/Users/hongyan/Desktop/javaTestFile");//写文件
+        Collections.sort(pos,new Comparator<POInfo>(){//排个序
+            @Override
+            public int compare(POInfo o1, POInfo o2) {
+                return o1.toString().length()-o2.toString().length();
+            }
+        });
 
+        writeIntoFile(pos, "/Users/hongyan/Desktop/javaTestFile");// 写文件
 
     }
 
-    private static void writeIntoFile(List<POInfo> pos,String string) throws IOException {
-        BufferedWriter bos = new BufferedWriter(new FileWriter(string));
-        for(POInfo po : pos){
-            String line = "类名:"+po.getJavaName()+"\t 数据库:"+po.getCatalog()+"\t 表名:"+po.getName();
-            System.out.println(line);
-            bos.write(line);
-            bos.newLine();
+    private static void writeIntoFile(List<POInfo> pos, String string) {
+        BufferedWriter bos;
+        try {
+            bos = new BufferedWriter(new FileWriter(string));
+            for (POInfo po : pos) {
+                String line = "类名:" + po.getJavaName() + "\t 数据库:" + po.getCatalog() + "\t 表名:" + po.getName();
+                System.out.println(line);
+                bos.write(line);
+                bos.newLine();
+            }
+            bos.close();
+        } catch (IOException e) {
+            System.out.println("指定目录无法写入!");
+            e.printStackTrace();
         }
-        bos.close();
         System.out.println("写入文件done!");
-        
+
     }
 
 }
