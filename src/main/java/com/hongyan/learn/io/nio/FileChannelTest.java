@@ -16,8 +16,10 @@ import java.nio.channels.FileChannel;
  * @version version
  */
 public class FileChannelTest {
+    private static RandomAccessFile raf;
+
     public static void main(String[] args) throws Exception {
-        RandomAccessFile raf = new RandomAccessFile("/Users/hongyan/Desktop/免费版天眼系统.png", "rw");
+        raf = new RandomAccessFile("/Users/hongyan/Desktop/免费版天眼系统.png", "rw");
         ByteBuffer buffer = ByteBuffer.allocate(1000);
         FileChannel channel = raf.getChannel();
 
