@@ -18,13 +18,10 @@ public class Fee {
     public String hello() {
         return "hello fee";
     }
-
-    public static Object createProxy(Object originalInstance, ClassProxy proxy) {
-        return null;
-    }
-
     public static void main(String[] args) throws Throwable {
-        Fee fee = (Fee) createProxy(new Fee(), (currentMethod, originalInstance, arg) -> {
+        ClassProxyFactory factory = new ClassProxyFactoryImpl();
+
+        Fee fee = (Fee) factory.createProxy(new Fee(), (currentMethod, originalInstance, arg) -> {
             Object ret;
             try {
                 ret = currentMethod.invoke(originalInstance, args);
@@ -34,6 +31,7 @@ public class Fee {
             }
             return " failed! ";
         });
+
         System.out.println(fee.hello());
     }
 }
