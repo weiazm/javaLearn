@@ -4,8 +4,6 @@
  */
 package com.hongyan.learn.proxy.universalProxy;
 
-import com.hongyan.learn.proxy.exemple.MyAdvice;
-
 import sun.misc.ProxyGenerator;
 
 import java.io.BufferedOutputStream;
@@ -13,6 +11,8 @@ import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @title ProxyTest
@@ -42,7 +42,7 @@ public class ProxyTest {
         list.add(1);
         System.out.println(list);
 
-        byte[] classFile = ProxyGenerator.generateProxyClass("$Proxy11", MyAdvice.class.getInterfaces());
+        byte[] classFile = ProxyGenerator.generateProxyClass("$Proxy11", HttpServletRequest.class.getInterfaces());
         BufferedOutputStream bos =
             new BufferedOutputStream(new FileOutputStream("/Users/hongyan/Desktop/$Proxy11.class"));
         bos.write(classFile);

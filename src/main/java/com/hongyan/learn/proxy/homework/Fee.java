@@ -5,7 +5,6 @@
 package com.hongyan.learn.proxy.homework;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 /**
  * @title Fee
@@ -23,32 +22,18 @@ public class Fee {
     public static Object createProxy(Object originalInstance, ClassProxy proxy) {
         return null;
     }
-    /**
-     * (currentMethod, originalInstance, args) -> {
-            Object ret = currentMethod.invoke(originalInstance, args);
-            return ret + " intercept 1";
-        }
-     * @param args
-     * @throws Throwable 
-     */
 
     public static void main(String[] args) throws Throwable {
-        Fee fee = (Fee) createProxy(new Fee(), new ClassProxy() {
-            @Override
-            public Object intercept(Method currentMethod, Object originalInstance, Object[] args) {
-                Object ret = null;
-                try {
-                    ret = currentMethod.invoke(originalInstance, args);
-                } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+        Fee fee = (Fee) createProxy(new Fee(), (currentMethod, originalInstance, arg) -> {
+            Object ret;
+            try {
+                ret = currentMethod.invoke(originalInstance, args);
                 return ret + " intercept 1";
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                e.printStackTrace();
             }
+            return " failed! ";
         });
-
         System.out.println(fee.hello());
     }
-    }
-
-
+}
