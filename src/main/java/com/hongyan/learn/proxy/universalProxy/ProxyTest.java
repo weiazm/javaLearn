@@ -4,6 +4,12 @@
  */
 package com.hongyan.learn.proxy.universalProxy;
 
+import com.hongyan.learn.proxy.exemple.MyAdvice;
+
+import sun.misc.ProxyGenerator;
+
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +23,7 @@ import java.util.List;
  */
 public class ProxyTest {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Throwable {
 
         UniversalHandler handler = new UniversalHandler(new ArrayList<Integer>(), new BeforeAfter() {
             @Override
@@ -31,10 +37,16 @@ public class ProxyTest {
         });
 
         @SuppressWarnings("unchecked")
-        List<Integer> list = (List<Integer>) handler.getProxy();
+        List<Integer> list = (List<Integer>) handler.getProxy();// 这里只能强转为接口类型,而且必须有接口
 
         list.add(1);
         System.out.println(list);
+
+        byte[] classFile = ProxyGenerator.generateProxyClass("$Proxy11", MyAdvice.class.getInterfaces());
+        BufferedOutputStream bos =
+            new BufferedOutputStream(new FileOutputStream("/Users/hongyan/Desktop/$Proxy11.class"));
+        bos.write(classFile);
+        bos.close();
 
     }
 
