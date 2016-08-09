@@ -4,7 +4,9 @@
  */
 package com.hongyan.learn.pattern;
 
+import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -16,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -147,12 +148,12 @@ public class PatternHomework {
             pos.add(convertStrTOPOInfo(str, javaPattern, catalogPattern, namePattern));// 字符串转化实体类
         }
         
-        Collections.sort(pos,new Comparator<POInfo>(){//排个序
+        Collections.sort(pos,Ordering.natural().onResultOf(new Function<POInfo, Integer>() {
             @Override
-            public int compare(POInfo o1, POInfo o2) {
-                return o1.toString().length()-o2.toString().length();
+            public Integer apply(POInfo input) {
+                return input.toString().length();
             }
-        });
+        }));
 
         writeIntoFile(pos, "/Users/hongyan/Desktop/javaTestFile");// 写文件
 
