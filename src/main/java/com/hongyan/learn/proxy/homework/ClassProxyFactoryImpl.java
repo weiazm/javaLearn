@@ -4,8 +4,10 @@
  */
 package com.hongyan.learn.proxy.homework;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationHandler;
+import org.springframework.cglib.proxy.Enhancer;
+import org.springframework.cglib.proxy.MethodInterceptor;
+import org.springframework.cglib.proxy.MethodProxy;
+
 import java.lang.reflect.Method;
 
 /**
@@ -19,26 +21,22 @@ public class ClassProxyFactoryImpl implements ClassProxyFactory {
 
     @Override
     public Object createProxy(Object originalInstance, ClassProxy proxy) throws Throwable {
+        class MyInterceptor implements MethodInterceptor {
+            private ClassProxy prox;
 
-        Constructor constructor = originalInstance.getClass().getConstructor(InvocationHandler.class);
-
-        class MyHandler implements InvocationHandler {
-            private ClassProxy classProxy;
-
-            public MyHandler(ClassProxy classProxy) {
-                this.classProxy = classProxy;
+            public MyInterceptor(ClassProxy prox) {
+                this.prox = prox;
             }
             @Override
-            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                // TODO Auto-generated method stub
-                return this.classProxy.intercept(method, proxy, args);
+            public Object intercept(Object arg0, Method arg1, Object[] arg2, MethodProxy arg3) throws Throwable {
+                return this.prox.intercept(arg1, arg0, arg2);
             }
-
         }
 
-        Object res = constructor.newInstance(new MyHandler(proxy));
-        
-        return res;
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(originalInstance.getClass());
+        enhancer.setCallback(new MyInterceptor(proxy));
+        return enhancer.create();
     }
 
 }

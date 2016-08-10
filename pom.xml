@@ -99,11 +99,6 @@
 			<version>19.0</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
-			<version>3.2.4</version>
-		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

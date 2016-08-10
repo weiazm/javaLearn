@@ -18,7 +18,8 @@ public class Fee {
     public String hello() {
         return "hello fee";
     }
-    public static void main(String[] args) throws Throwable {
+
+    public static final void main(String[] args) throws Throwable {
         ClassProxyFactory factory = new ClassProxyFactoryImpl();
 
         Fee fee = (Fee) factory.createProxy(new Fee(), (currentMethod, originalInstance, arg) -> {
