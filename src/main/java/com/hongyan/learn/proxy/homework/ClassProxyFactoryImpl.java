@@ -29,10 +29,10 @@ public class ClassProxyFactoryImpl implements ClassProxyFactory {
             }
             @Override
             public Object intercept(Object arg0, Method arg1, Object[] arg2, MethodProxy arg3) throws Throwable {
-                return this.prox.intercept(arg1, arg0, arg2);
+                return this.prox.intercept(arg3, arg0, arg2);
+                // return arg3.invokeSuper(arg0, arg2);
             }
         }
-
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(originalInstance.getClass());
         enhancer.setCallback(new MyInterceptor(proxy));

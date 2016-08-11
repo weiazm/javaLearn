@@ -4,7 +4,7 @@
  */
 package com.hongyan.learn.proxy.homework;
 
-import java.lang.reflect.Method;
+import org.springframework.cglib.proxy.MethodProxy;
 
 /**
  * @title ClassProxy
@@ -14,5 +14,5 @@ import java.lang.reflect.Method;
  * @version version
  */
 public interface ClassProxy {
-    public Object intercept(Method currentMethod, Object originalInstance, Object[] args);
+    public Object intercept(MethodProxy currentMethod, Object originalInstance, Object[] args);
 }

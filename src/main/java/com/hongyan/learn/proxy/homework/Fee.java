@@ -4,8 +4,6 @@
  */
 package com.hongyan.learn.proxy.homework;
 
-import java.lang.reflect.InvocationTargetException;
-
 /**
  * @title Fee
  * @desc description
@@ -18,21 +16,19 @@ public class Fee {
     public String hello() {
         return "hello fee";
     }
-
     public static final void main(String[] args) throws Throwable {
         ClassProxyFactory factory = new ClassProxyFactoryImpl();
 
         Fee fee = (Fee) factory.createProxy(new Fee(), (currentMethod, originalInstance, arg) -> {
             Object ret;
             try {
-                ret = currentMethod.invoke(originalInstance, args);
+                ret = currentMethod.invokeSuper(originalInstance, args);
                 return ret + " intercept 1";
-            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
             return " failed! ";
         });
-
         System.out.println(fee.hello());
     }
 }
