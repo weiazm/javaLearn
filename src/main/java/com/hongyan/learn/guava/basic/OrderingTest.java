@@ -34,6 +34,7 @@ public class OrderingTest {
         list.add("ikari");
         list.add("misado");
         list.add("appleTree");
+        list.add("null");
         Collections.sort(list, Ordering.natural().reverse().nullsFirst().onResultOf(new Function<String, Integer>() {
             @Override
             public Integer apply(String input) {
@@ -45,6 +46,20 @@ public class OrderingTest {
             }
         }));
         System.out.println(list);
+
+        System.out.println(Ordering.usingToString().reverse().greatestOf(list, 2));
+
+        System.out.println(Ordering.usingToString().reverse().onResultOf(new Function<String, Integer>() {
+            @Override
+            public Integer apply(String input) {
+                return input.length();
+            }
+        }).compound(Ordering.natural().onResultOf(new Function<String, String>() {
+            @Override
+            public String apply(String input) {
+                return input;
+            }
+        })).greatestOf(list, 4));
 
 
     }
