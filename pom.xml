@@ -101,17 +101,6 @@
 		</dependency>
 	</dependencies>
 	<build>
-	<profiles>
-		<profile>
-			<id>qa</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<properties>
-				<resource.directory>src/main/resources</resource.directory>
-			</properties>
-		</profile>
-	</profiles>
 		<plugins>
 			<plugin>
 				<artifactId>maven-eclipse-plugin</artifactId>
