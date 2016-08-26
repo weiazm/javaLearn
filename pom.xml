@@ -11,9 +11,9 @@
 	<properties>
 		<java-version>1.8</java-version>
 		<bj-bom-all-version>0.0.37</bj-bom-all-version>
-		<jetty-maven-plugin-version>9.2.10.v20150310</jetty-maven-plugin-version>
-		<maven-release-plugin-version>2.5.2</maven-release-plugin-version>
-		<cobertura-maven-plugin-version>2.4</cobertura-maven-plugin-version>
+		<jetty-maven-plugin-version>9.3.11.v20160721</jetty-maven-plugin-version>
+		<maven-release-plugin-version>2.5.3</maven-release-plugin-version>
+		<cobertura-maven-plugin-version>2.7</cobertura-maven-plugin-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
@@ -131,7 +131,6 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
