@@ -4,8 +4,8 @@
  */
 package com.hongyan.learn.javabaseTest;
 
-import com.hongyan.learn.javabase.HyMark;
-import com.hongyan.learn.javabase.HyMarkBean;
+import com.hongyan.learn.catalog.javabase.HyMark;
+import com.hongyan.learn.catalog.javabase.HyMarkBean;
 
 import org.junit.Test;
 

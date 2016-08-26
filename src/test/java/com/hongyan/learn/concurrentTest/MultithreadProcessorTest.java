@@ -4,7 +4,7 @@
  */
 package com.hongyan.learn.concurrentTest;
 
-import com.hongyan.learn.concurrent.MultithreadProcessor;
+import com.hongyan.learn.catalog.concurrent.MultithreadProcessor;
 
 import java.io.FileNotFoundException;
 import java.util.concurrent.LinkedBlockingQueue;

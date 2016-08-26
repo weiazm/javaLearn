@@ -4,7 +4,7 @@
  */
 package com.hongyan.learn.javabaseTest;
 
-import com.hongyan.learn.javabase.EnumDemo;
+import com.hongyan.learn.catalog.javabase.EnumDemo;
 
 import org.junit.Test;
 

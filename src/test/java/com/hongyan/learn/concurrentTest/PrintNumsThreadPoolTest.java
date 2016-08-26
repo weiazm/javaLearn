@@ -4,7 +4,7 @@
  */
 package com.hongyan.learn.concurrentTest;
 
-import com.hongyan.learn.concurrent.PrintNums;
+import com.hongyan.learn.catalog.concurrent.PrintNums;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

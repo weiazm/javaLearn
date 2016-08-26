@@ -4,8 +4,8 @@
  */
 package com.hongyan.learn.concurrentTest;
 
-import com.hongyan.learn.concurrent.PrintHello;
-import com.hongyan.learn.concurrent.PrintNums;
+import com.hongyan.learn.catalog.concurrent.PrintHello;
+import com.hongyan.learn.catalog.concurrent.PrintNums;
 
 /**
  * @title PrintNumsTest
