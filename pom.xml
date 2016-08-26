@@ -49,7 +49,7 @@
 		<profile>
 			<id>prod</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<activeByDefault>false</activeByDefault>
 				<property>
 					<name>res</name>
 					<value>prod</value>
@@ -59,7 +59,7 @@
 		<profile>
 			<id>dev</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<activeByDefault>false</activeByDefault>
 				<property>
 					<name>res</name>
 					<value>dev</value>
